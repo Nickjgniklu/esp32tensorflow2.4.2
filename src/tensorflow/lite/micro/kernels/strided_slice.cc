@@ -167,6 +167,13 @@ TfLiteStatus Eval(TfLiteContext* context, TfLiteNode* node) {
                                   tflite::micro::GetTensorShape(output),
                                   tflite::micro::GetTensorData<int8_t>(output));
       break;
+    case kTfLiteInt32://this is hack https://stackoverflow.com/questions/64850356/error-with-strided-slice-in-tensorflow-lite
+       reference_ops::StridedSlice(op_params,
+                              tflite::micro::GetTensorShape(input),
+                              tflite::micro::GetTensorData<int8_t>(input),
+                              tflite::micro::GetTensorShape(output),
+                              tflite::micro::GetTensorData<int8_t>(output));
+      break;
     default:
       TF_LITE_KERNEL_LOG(context, "Type %s (%d) not supported.",
                          TfLiteTypeGetName(input->type), input->type);
